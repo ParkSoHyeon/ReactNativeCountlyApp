@@ -1,5 +1,5 @@
 import Dispatcher from './Dispatcher';
-import EventEmitter from "react-native";
+import EventEmitter from 'events';
 
 let tally = {
     count: 0
@@ -18,9 +18,10 @@ const handleAction = (action) => {
             break;
         default:
     }
-
-    instance.emit();
+    instance.emitChange();
 }
+
+Dispatcher.register(handleAction);
 
 const increment = () => {
     tally.count += 1;
@@ -48,9 +49,10 @@ class TallyStore extends EventEmitter {
     }
 
     emitChange() {
-        this.emit('CHANGE')
+        this.emit('CHANGE');
     }
 }
 
 const instance = new TallyStore();
+
 export default instance;

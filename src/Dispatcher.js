@@ -1,3 +1,5 @@
+import React from 'react';
+
 class Dispatcher {
     constructor() {
         this.isDispatching = false;
@@ -20,3 +22,5 @@ class Dispatcher {
         this.isDispatching = false;
     }
 }
+
+export default new Dispatcher();

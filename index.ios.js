@@ -14,6 +14,7 @@ import {name as appName} from './app.json';
 import { increment, decrement, zero } from "./src/actions";
 import TallyStore from "./src/TallyStore";
 
+
 class Countly extends Component {
     constructor(props) {
         super(props);
@@ -38,7 +39,6 @@ class Countly extends Component {
             tally: TallyStore.getTally()
         });
     }
-
 
     render() {
         return (
@@ -99,4 +99,4 @@ const styles = StyleSheet.create({
     }
 });
 
-AppRegistry.registerComponent('Countly', () => Countly);
+AppRegistry.registerComponent(appName, () => Countly);
