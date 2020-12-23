@@ -12,32 +12,33 @@ import {
 } from 'react-native';
 import {name as appName} from './app.json';
 import { increment, decrement, zero } from "./src/actions";
-import TallyStore from "./src/TallyStore";
+import store from "./src/store";
 
 
 class Countly extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            tally: TallyStore.getTally()
-        }
-
         this.updateState = this.updateState.bind(this);
+
+        this.state = {
+            tally: store.getState(),
+            unsubscribe: store.subscribe(this.updateState)
+        }
     }
 
-    componentDidMount() {
-        TallyStore.addChangeListener(this.updateState);
-    }
-
-    componentWillMount() {
-        TallyStore.removeChangeListener(this.updateState);
+    componentWillUnmount() {
+        this.state.unsubscribe();
     }
 
     updateState() {
+        console.log(store.getState());
         this.setState({
-            tally: TallyStore.getTally()
-        });
+            tally: store.getState()
+        })
+        // this.setState({
+        //     tally: store.getState()
+        // });
     }
 
     render() {
@@ -47,19 +48,19 @@ class Countly extends Component {
                 <Text style={styles.tally}>Tally: {this.state.tally.count}</Text>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={increment}
+                    onPress={() => store.dispatch(increment())}
                 >
                     <Text style={styles.buttonText}>+</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={decrement}
+                    onPress={() => store.dispatch(decrement())}
                 >
                     <Text style={styles.buttonText}>-</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={zero}
+                    onPress={() => store.dispatch(zero())}
                 >
                     <Text style={styles.buttonText}>0</Text>
                 </TouchableOpacity>
